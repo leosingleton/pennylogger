@@ -42,7 +42,7 @@ jobs:
           src/**
 
     - name: Publish NuGet Package
-      if: github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/main'
       uses: rohith/publish-nuget@v2
       with:
         PROJECT_FILE_PATH: src/PennyLogger/PennyLogger.csproj
