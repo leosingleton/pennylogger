@@ -19,14 +19,14 @@ jobs:
 
     - name: Compile
       run: |
-        cd dotnet
+        cd src
         dotnet restore
         dotnet build
         dotnet publish -c Release
 
     - name: Run Unit Tests
       run: |
-        cd dotnet
+        cd src
         dotnet test PennyLogger.UnitTests/PennyLogger.UnitTests.csproj --collect:"XPlat Code Coverage"
 
     - name: Publish Code Coverage
