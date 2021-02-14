@@ -1,0 +1,52 @@
+name: CI
+
+on: push
+
+jobs:
+  dotnet:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+
+    - name: Compile
+      run: |
+        cd dotnet
+        dotnet restore
+        dotnet build
+        dotnet publish -c Release
+
+    - name: Run Unit Tests
+      run: |
+        cd dotnet
+        dotnet test PennyLogger.UnitTests/PennyLogger.UnitTests.csproj --collect:"XPlat Code Coverage"
+
+    - name: Publish Code Coverage
+      uses: codecov/codecov-action@v1
+      with:
+        file: ./src/PennyLogger.UnitTests/TestResults/*/coverage.cobertura.xml
+  
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: pennylogger-${{ github.run_number }}
+        path: |
+          src/**
+
+    - name: Publish NuGet Package
+      if: github.ref == 'refs/heads/master'
+      uses: rohith/publish-nuget@v2
+      with:
+        PROJECT_FILE_PATH: src/PennyLogger/PennyLogger.csproj
+        VERSION_REGEX: ^\s*<PackageVersion>(.*)<\/PackageVersion>\s*$
+        TAG_FORMAT: v*
+        NUGET_KEY: ${{ secrets.NUGET_AUTH_TOKEN }}
+        INCLUDE_SYMBOLS: true

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>PennyLogger.EstimatorTest</AssemblyName>
+    <RootNamespace>PennyLogger.EstimatorTest</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PennyLogger\PennyLogger.csproj" />
+  </ItemGroup>
+
+</Project>
