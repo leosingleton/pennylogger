@@ -130,12 +130,15 @@ To count the total number of events across multiple aggregate log entries, sum t
 
 Splunk syntax:
 ```
-index=my_app Event="MyEvent$" | stats sum(Count)
+index=my_app Event="MyEvent$"
+| stats sum(Count)
 ```
 
 SumoLogic syntax:
 ```
-_collector=my_app | where event = "MyEvent$" | sum(count)
+_collector=my_app
+| where event = "MyEvent$"
+| sum(count)
 ```
 
 #### Average
@@ -144,12 +147,17 @@ To compute the average value across all aggregate log events, sum the values of 
 
 Splunk syntax:
 ```
-index=my_app Event="MyEvent$" | stats sum(Count) as _count, sum(Value.Sum) as _sum | eval _avg=_sum/_count
+index=my_app Event="MyEvent$"
+| stats sum(Count) as _count, sum(Value.Sum) as _sum
+| eval _avg=_sum/_count
 ```
 
 SumoLogic syntax:
 ```
-_collector=my_app | where event = "MyEvent$" | sum(count) as _count, sum(%"value.sum") as _sum | (_sum / _count) as _avg
+_collector=my_app
+| where event = "MyEvent$"
+| sum(count) as _count, sum(%"value.sum") as _sum
+| (_sum / _count) as _avg
 ```
 
 #### Minimum
@@ -158,12 +166,15 @@ To compute the minimum value across all aggregate log events, take the minimum o
 
 Splunk syntax:
 ```
-index=my_app Event="MyEvent$" | stats min(Value.Min)
+index=my_app Event="MyEvent$"
+| stats min(Value.Min)
 ```
 
 SumoLogic syntax:
 ```
-_collector=my_app | where event = "MyEvent$" | min(%"value.min")
+_collector=my_app
+| where event = "MyEvent$"
+| min(%"value.min")
 ```
 
 #### Maximum
@@ -172,12 +183,15 @@ To compute the maximum value across all aggregate log events, take the maximum o
 
 Splunk syntax:
 ```
-index=my_app Event="MyEvent$" | stats max(Value.Max)
+index=my_app Event="MyEvent$"
+| stats max(Value.Max)
 ```
 
 SumoLogic syntax:
 ```
-_collector=my_app | where event = "MyEvent$" | max(%"value.max")
+_collector=my_app
+| where event = "MyEvent$"
+| max(%"value.max")
 ```
 
 
@@ -256,7 +270,7 @@ class HttpRequestEvent
 An alternative way to log events with PennyLogger is using samplers. Rather than sending event objects to PennyLogger,
 the application can register a lambda function or event to sample on a regular interval.
 
-Consider a controller that contains a `Dictionary`, PennyLogger could log the count of the dictionary every minute:
+Consider a controller that contains a `Dictionary`, PennyLogger could log the count of the dictionary every 5 minutes:
 ```C#
 public class SampleController : ControllerBase
 {
@@ -264,14 +278,27 @@ public class SampleController : ControllerBase
     {
         Logger = logger;
         Table = new Dictionary<string, string>();
-        TableSampler = Logger.Sample(
-            () => new { Event = "TableSize", Count = Table.Count }
-            new PennySamplerOptions { Interval = 60 });
+        TableSampler = Logger.Sample(() => new { Event = "TableSize", Count = Table.Count });
     }
 
     private readonly IPennyLogger Logger;
     private readonly Dictionary<string, string> Table;
     private readonly IDisposable TableSampler;
+```
+
+To customize the polling interval, use a named class with the `[PennySampler]` attribute, or specify the interval as a
+parameter to `IPennyLogger.Sample()`:
+
+```C#
+[PennySampler(Interval = 60)]
+class TableSizeSampler
+{
+```
+
+```C#
+        TableSampler = Logger.Sample(
+            () => new { Count = Table.Count }
+            new PennySamplerOptions { Id = "TableSize", Interval = 60 });
 ```
 
 
