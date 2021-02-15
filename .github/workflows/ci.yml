@@ -41,11 +41,21 @@ jobs:
         path: |
           src/**
 
-    - name: Publish NuGet Package
+    - name: Publish NuGet Package - PennyLogger
       if: github.ref == 'refs/heads/main'
       uses: rohith/publish-nuget@v2
       with:
         PROJECT_FILE_PATH: src/PennyLogger/PennyLogger.csproj
+        VERSION_REGEX: ^\s*<PackageVersion>(.*)<\/PackageVersion>\s*$
+        TAG_FORMAT: v*
+        NUGET_KEY: ${{ secrets.NUGET_AUTH_TOKEN }}
+        INCLUDE_SYMBOLS: true
+
+    - name: Publish NuGet Package - PennyLogger.AspNetCore
+      if: github.ref == 'refs/heads/main'
+      uses: rohith/publish-nuget@v2
+      with:
+        PROJECT_FILE_PATH: src/PennyLogger.AspNetCore/PennyLogger.AspNetCore.csproj
         VERSION_REGEX: ^\s*<PackageVersion>(.*)<\/PackageVersion>\s*$
         TAG_FORMAT: v*
         NUGET_KEY: ${{ secrets.NUGET_AUTH_TOKEN }}
