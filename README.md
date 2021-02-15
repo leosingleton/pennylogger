@@ -5,6 +5,8 @@ the costs of processing millions and billions of log events can become prohibiti
 Standard library that offloads the first level of event aggregation and filtering to the application itself, enabling
 events to be logged at a fraction of the usual costs.
 
+![PennyLogger Architecture](doc/images/pennylogger-architecture.png)
+
 
 ## Getting Started
 
