@@ -1,7 +1,6 @@
 ﻿// PennyLogger: Log event aggregation and filtering library
 // See LICENSE in the project root for license information.
 
-using PennyLogger.Filters;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace PennyLogger
@@ -18,7 +17,7 @@ namespace PennyLogger
         /// <returns>Service collection</returns>
         public static IServiceCollection AddPennyLogger(this IServiceCollection services)
         {
-            services.AddSingleton<IPennyLogger, PennyLogger>();
+            services.AddSingleton<IPennyLogger, PennyLoggerAspNetCore>();
 
             return services;
         }
