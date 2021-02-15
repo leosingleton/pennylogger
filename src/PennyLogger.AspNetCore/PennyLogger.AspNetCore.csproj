@@ -13,7 +13,7 @@
     <PackageProjectUrl>https://github.com/leosingleton/pennylogger</PackageProjectUrl>
     <Summary>Log event aggregation and filtering library for ASP.NET Core</Summary>
     <Title>PennyLogger for ASP.NET Core</Title>
-    <Description>Log event aggregation and filtering library for</Description>
+    <Description>Log event aggregation and filtering library for ASP.NET Core</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
