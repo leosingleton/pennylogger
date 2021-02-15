@@ -17,7 +17,7 @@ namespace PennyLogger
         /// <returns>Service collection</returns>
         public static IServiceCollection AddPennyLogger(this IServiceCollection services)
         {
-            services.AddSingleton<IPennyLogger, PennyLoggerAspNetCore>();
+            services.AddSingleton<IPennyLogger, PennyLogger>();
 
             return services;
         }

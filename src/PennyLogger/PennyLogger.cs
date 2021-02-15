@@ -1,9 +1,12 @@
 ﻿// PennyLogger: Log event aggregation and filtering library
 // See LICENSE in the project root for license information.
 
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using PennyLogger.Internals;
 using PennyLogger.Internals.Dictionary;
 using PennyLogger.Internals.Reflection;
+using PennyLogger.Output;
 using System;
 using System.Collections.Concurrent;
 
@@ -15,11 +18,19 @@ namespace PennyLogger
     /// expensive. PennyLogger is a .NET Standard library that offloads the first level of event aggregation and
     /// filtering to the application itself, enabling events to be logged at a fraction of the usual costs.
     /// </summary>
+    /// <remarks>
+    /// For ASP.NET Core integration, see PennyLoggerAspNetCore in the PennyLogger.AspNetCore package instead.
+    /// </remarks>
     public class PennyLogger : IPennyLogger
     {
         /// <summary>
-        /// Constructor
+        /// Constructor for use with any configuration and output log provider
         /// </summary>
+        /// <param name="logger">Output log provider</param>
+        /// <param name="options">
+        /// Initial configuration options. May be changed at runtime using
+        /// <see cref="UpdateOptions(PennyLoggerOptions)"/>.
+        /// </param>
         public PennyLogger(IPennyLoggerOutput logger, PennyLoggerOptions options = null)
         {
             Logger = logger;
@@ -30,6 +41,21 @@ namespace PennyLogger
             SamplerStates = new ConcurrentDictionary<string, SamplerState>();
 
             Options = options;
+        }
+
+        /// <summary>
+        /// Constructor for use with dependency injection, using <see cref="IOptionsMonitor{TOptions}"/> for
+        /// configuration and <see cref="ILogger"/> for output
+        /// </summary>
+        /// <param name="logger">Output log provider</param>
+        /// <param name="options">
+        /// Initial configuration options. May be changed at runtime using
+        /// <see cref="UpdateOptions(PennyLoggerOptions)"/>.
+        /// </param>
+        public PennyLogger(ILogger<PennyLogger> logger, IOptionsMonitor<PennyLoggerOptions> options) :
+            this(new LoggerOutput(logger), options.CurrentValue)
+        {
+            options.OnChange(UpdateOptions);
         }
 
         /// <inheritdoc/>

@@ -6,18 +6,18 @@ using PennyLogger.Internals;
 using System;
 using System.Text.Json;
 
-namespace PennyLogger
+namespace PennyLogger.Output
 {
     /// <summary>
     /// PennyLogger support for <see cref="ILogger"/> output
     /// </summary>
-    public class MicrosoftLoggingExtensionsOutput : IPennyLoggerOutput
+    public class LoggerOutput : IPennyLoggerOutput
     {
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="logger">Microsoft logging extensions instance</param>
-        public MicrosoftLoggingExtensionsOutput(ILogger logger)
+        public LoggerOutput(ILogger logger)
         {
             Logger = logger;
         }
