@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>PennyLogger.Sample</AssemblyName>
-    <RootNamespace>PennyLogger.Sample</RootNamespace>
+    <AssemblyName>PennyLogger.AspNetCore.Sample</AssemblyName>
+    <RootNamespace>PennyLogger.AspNetCore.Sample</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PennyLogger\PennyLogger.csproj" />
+    <ProjectReference Include="..\PennyLogger.AspNetCore\PennyLogger.AspNetCore.csproj" />
   </ItemGroup>
 
 
