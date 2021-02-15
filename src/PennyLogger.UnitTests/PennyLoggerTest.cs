@@ -9,19 +9,19 @@ using Xunit;
 namespace PennyLogger.UnitTests
 {
     /// <summary>
-    /// Unit tests for the <see cref="PennyLogger"/> class
+    /// Unit tests for the <see cref="PennyLoggerAspNetCore"/> class
     /// </summary>
     public partial class PennyLoggerTest
     {
-        private static void Init(out MockLogger<PennyLogger> mock, out PennyLogger logger,
+        private static void Init(out MockLogger<PennyLoggerAspNetCore> mock, out PennyLogger logger,
             out MockOptionsMonitor options)
         {
-            mock = new MockLogger<PennyLogger>();
+            mock = new MockLogger<PennyLoggerAspNetCore>();
             options = new MockOptionsMonitor(new PennyLoggerOptions());
-            logger = new PennyLogger(mock, options);
+            logger = new PennyLoggerAspNetCore(mock, options);
         }
 
-        private static void Init(out MockLogger<PennyLogger> mock, out PennyLogger logger)
+        private static void Init(out MockLogger<PennyLoggerAspNetCore> mock, out PennyLogger logger)
         {
             Init(out mock, out logger, out var _);
         }
