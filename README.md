@@ -11,7 +11,8 @@ events to be logged at a fraction of the usual costs.
 ## Getting Started
 
 PennyLogger supports the ASP.NET Core model for dependency injection and logs its output to the standard `ILogger`
-interface. To get started, add the PennyLogger service to your application's service dependencies in `Startup.cs`:
+interface. To get started, include the PennyLogger.AspNetCore NuGet package and add the PennyLogger service to your
+application's service dependencies in `Startup.cs`:
 
 ```C#
     public void ConfigureServices(IServiceCollection services)
