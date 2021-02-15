@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PennyLogger.AspNetCore\PennyLogger.AspNetCore.csproj" />
     <ProjectReference Include="..\PennyLogger.EstimatorTest\PennyLogger.EstimatorTest.csproj" />
     <ProjectReference Include="..\PennyLogger\PennyLogger.csproj" />
   </ItemGroup>

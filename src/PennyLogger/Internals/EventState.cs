@@ -1,7 +1,6 @@
 ﻿// PennyLogger: Log event aggregation and filtering library
 // See LICENSE in the project root for license information.
 
-using Microsoft.Extensions.Logging;
 using PennyLogger.Internals.Aggregate;
 using PennyLogger.Internals.Dictionary;
 using PennyLogger.Internals.Raw;
@@ -29,7 +28,7 @@ namespace PennyLogger.Internals
         /// <param name="configOptions">
         /// Event configuration options provided via appconfig or other dynamic configuration
         /// </param>
-        public EventState(string eventId, EventReflector reflector, ILogger logger, TimerManager timers,
+        public EventState(string eventId, EventReflector reflector, IPennyLoggerOutput logger, TimerManager timers,
             PennyEventOptions paramOptions, PennyEventOptions configOptions)
         {
             EventId = eventId;
@@ -42,7 +41,7 @@ namespace PennyLogger.Internals
 
         private readonly string EventId;
         private readonly EventReflector Reflector;
-        private readonly ILogger Logger;
+        private readonly IPennyLoggerOutput Logger;
         private readonly TimerManager Timers;
 
         /// <summary>
@@ -177,8 +176,7 @@ namespace PennyLogger.Internals
         {
             if (AggregateEvent != null && (Config.AggregateLogging.LogIfZero || AggregateEvent.Count > 0))
             {
-                var message = Utf8JsonSerializer.Write(writer => AggregateEvent.Serialize(writer));
-                Logger.Log(Config.AggregateLogging.Level, message);
+                Logger.Log(Config.AggregateLogging.Level, writer => AggregateEvent.Serialize(writer));
                 AggregateEvent.Clear();
             }
         }
@@ -189,8 +187,7 @@ namespace PennyLogger.Internals
 
             if (++RawEventCount <= Config.RawLogging.Max)
             {
-                var message = Utf8JsonSerializer.Write(writer => RawEvent.Serialize(writer, eventObject));
-                Logger.Log(Config.RawLogging.Level, message);
+                Logger.Log(Config.RawLogging.Level, writer => RawEvent.Serialize(writer, eventObject));
             }
         }
 

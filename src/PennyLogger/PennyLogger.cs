@@ -1,30 +1,37 @@
 ﻿// PennyLogger: Log event aggregation and filtering library
 // See LICENSE in the project root for license information.
 
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PennyLogger.Internals;
 using PennyLogger.Internals.Dictionary;
 using PennyLogger.Internals.Reflection;
+using PennyLogger.Output;
 using System;
 using System.Collections.Concurrent;
 
 namespace PennyLogger
 {
     /// <summary>
-    /// PennyLogger implementation. Use the
-    /// <see cref="ServiceCollectionExtensions.AddPennyLogger(IServiceCollection)"/> extension method to load the
-    /// PennyLogger into an ASP.NET Core project.
+    /// Log analysis tools such as Splunk, Sumo Logic, or Logstash are critical for monitoring modern cloud
+    /// applications, but the costs of processing millions and billions of log events can become prohibitively
+    /// expensive. PennyLogger is a .NET Standard library that offloads the first level of event aggregation and
+    /// filtering to the application itself, enabling events to be logged at a fraction of the usual costs.
     /// </summary>
+    /// <remarks>
+    /// For ASP.NET Core integration, see PennyLoggerAspNetCore in the PennyLogger.AspNetCore package instead.
+    /// </remarks>
     public class PennyLogger : IPennyLogger
     {
         /// <summary>
-        /// Constructor
+        /// Constructor for use with any configuration and output log provider
         /// </summary>
-        /// <param name="logger">Logging provider</param>
-        /// <param name="options">Configuration options</param>
-        public PennyLogger(ILogger<PennyLogger> logger, IOptionsMonitor<PennyLoggerOptions> options)
+        /// <param name="logger">Output log provider</param>
+        /// <param name="options">
+        /// Initial configuration options. May be changed at runtime using
+        /// <see cref="UpdateOptions(PennyLoggerOptions)"/>.
+        /// </param>
+        public PennyLogger(IPennyLoggerOutput logger, PennyLoggerOptions options = null)
         {
             Logger = logger;
             Timers = new TimerManager();
@@ -33,8 +40,22 @@ namespace PennyLogger
             EventStates = new ConcurrentDictionary<string, EventState>();
             SamplerStates = new ConcurrentDictionary<string, SamplerState>();
 
-            Options = options.CurrentValue;
-            options.OnChange(OnOptionsChange);
+            Options = options;
+        }
+
+        /// <summary>
+        /// Constructor for use with dependency injection, using <see cref="IOptionsMonitor{TOptions}"/> for
+        /// configuration and <see cref="ILogger"/> for output
+        /// </summary>
+        /// <param name="logger">Output log provider</param>
+        /// <param name="options">
+        /// Initial configuration options. May be changed at runtime using
+        /// <see cref="UpdateOptions(PennyLoggerOptions)"/>.
+        /// </param>
+        public PennyLogger(ILogger<PennyLogger> logger, IOptionsMonitor<PennyLoggerOptions> options) :
+            this(new LoggerOutput(logger), options.CurrentValue)
+        {
+            options.OnChange(UpdateOptions);
         }
 
         /// <inheritdoc/>
@@ -109,7 +130,11 @@ namespace PennyLogger
             }
         }
 
-        private void OnOptionsChange(PennyLoggerOptions options)
+        /// <summary>
+        /// Updates the configurations options at runtime, replacing the options provided in the constructor
+        /// </summary>
+        /// <param name="options">New PennyLogger options</param>
+        public void UpdateOptions(PennyLoggerOptions options)
         {
             Options = options;
 
@@ -132,7 +157,7 @@ namespace PennyLogger
             }
         }
 
-        private readonly ILogger Logger;
+        private readonly IPennyLoggerOutput Logger;
         private readonly TimerManager Timers;
         private readonly ConcurrentDictionary<Type, EventReflector> EventReflectors;
         private readonly ConcurrentDictionary<string, EventState> EventStates;

@@ -16,7 +16,7 @@ namespace PennyLogger.Mocks.UnitTests
 
         public bool IsEnabled(LogLevel logLevel)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception,

@@ -6,9 +6,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PennyLogger", "PennyLogger\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PennyLogger.UnitTests", "PennyLogger.UnitTests\PennyLogger.UnitTests.csproj", "{00B415B8-BCFF-4135-99EC-165EF38C84BC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PennyLogger.Sample", "PennyLogger.Sample\PennyLogger.Sample.csproj", "{67AF406A-F49D-4D5E-A7D2-5BA0625AA408}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PennyLogger.AspNetCore.Sample", "PennyLogger.AspNetCore.Sample\PennyLogger.AspNetCore.Sample.csproj", "{67AF406A-F49D-4D5E-A7D2-5BA0625AA408}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PennyLogger.EstimatorTest", "PennyLogger.EstimatorTest\PennyLogger.EstimatorTest.csproj", "{A11555D1-CA35-475E-8709-F572914276E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PennyLogger.AspNetCore", "PennyLogger.AspNetCore\PennyLogger.AspNetCore.csproj", "{4724B416-9521-404E-90E0-AB6F92511D42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +34,10 @@ Global
 		{A11555D1-CA35-475E-8709-F572914276E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A11555D1-CA35-475E-8709-F572914276E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A11555D1-CA35-475E-8709-F572914276E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4724B416-9521-404E-90E0-AB6F92511D42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4724B416-9521-404E-90E0-AB6F92511D42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4724B416-9521-404E-90E0-AB6F92511D42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4724B416-9521-404E-90E0-AB6F92511D42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

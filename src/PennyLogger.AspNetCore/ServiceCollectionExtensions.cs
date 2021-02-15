@@ -1,7 +1,6 @@
 ﻿// PennyLogger: Log event aggregation and filtering library
 // See LICENSE in the project root for license information.
 
-using PennyLogger.Filters;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace PennyLogger

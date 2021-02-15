@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>PennyLogger.AspNetCore</AssemblyName>
+    <RootNamespace>PennyLogger</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageId>PennyLogger.AspNetCore</PackageId>
+    <PackageVersion>0.0.2</PackageVersion>
+    <Authors>Leo C. Singleton IV</Authors>
+    <Copyright>Copyright (c) 2017-2021 Leo C. Singleton IV</Copyright>
+    <Owners>leosingleton</Owners>
+    <PackageProjectUrl>https://github.com/leosingleton/pennylogger</PackageProjectUrl>
+    <Summary>Log event aggregation and filtering library for ASP.NET Core</Summary>
+    <Title>PennyLogger for ASP.NET Core</Title>
+    <Description>Log event aggregation and filtering library for</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+    <PackageReference Include="System.Text.Json" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PennyLogger\PennyLogger.csproj" />
+  </ItemGroup>
+
+</Project>

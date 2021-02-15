@@ -1,7 +1,6 @@
 ﻿// PennyLogger: Log event aggregation and filtering library
 // See LICENSE in the project root for license information.
 
-using Microsoft.Extensions.Logging;
 using PennyLogger.Internals.Dictionary;
 using PennyLogger.Internals.Raw;
 using PennyLogger.Internals.Reflection;
@@ -34,8 +33,9 @@ namespace PennyLogger.Internals
         /// Sampler configuration options provided via appconfig or other dynamic configuration
         /// </param>
         /// <param name="disposeLambda">Callback to notify the parent class when this instance is disposed</param>
-        public SamplerState(SamplerReflector reflector, Func<object> samplerLambda, ILogger logger, TimerManager timers,
-            PennySamplerOptions paramOptions, PennySamplerOptions configOptions, Action disposeLambda)
+        public SamplerState(SamplerReflector reflector, Func<object> samplerLambda, IPennyLoggerOutput logger,
+            TimerManager timers, PennySamplerOptions paramOptions, PennySamplerOptions configOptions,
+            Action disposeLambda)
         {
             Reflector = reflector;
             SamplerLambda = samplerLambda;
@@ -48,7 +48,7 @@ namespace PennyLogger.Internals
 
         private readonly SamplerReflector Reflector;
         private readonly Func<object> SamplerLambda;
-        private readonly ILogger Logger;
+        private readonly IPennyLoggerOutput Logger;
         private readonly TimerManager Timers;
         private readonly Action DisposeLambda;
 
@@ -115,8 +115,7 @@ namespace PennyLogger.Internals
 
                     var sampleObject = SamplerLambda();
 
-                    var message = Utf8JsonSerializer.Write(writer => RawEvent.Serialize(writer, sampleObject));
-                    Logger.Log(Config.Level, message);
+                    Logger.Log(Config.Level, writer => RawEvent.Serialize(writer, sampleObject));
                 }
             }
         }
